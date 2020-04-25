@@ -385,7 +385,7 @@ nav h1 {
   padding: 5px;
   margin: 2px;
   height: 50px;
-  width: 100%;
+  width: 96.8%;
 }
 .home-button-wrapper, .home-menu-details {
   display: flex;
@@ -397,4 +397,14 @@ nav h1 {
 }
 .menu-button-wrapper .button{
   font-size: 1.2rem;
+}
+input[type="text"], input[type="password"]{
+  display: block;
+  padding: 1rem 0.5rem;
+  border: 4px double black;
+  outline: none;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: "roboto-regular", sans-serif;
+  font-size: 1.4rem;
+  width: 100%;
 }
