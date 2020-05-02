@@ -2,34 +2,34 @@ import React, { useState, useEffect, useCallback } from "react";
 import Button from "./commons/Button";
 import { ButtonTwo } from "./commons/Button";
 import GameNav from "../Components/GameNav";
-const anagramWord = "AUORDGA";
-const anagramWordSolution = ["GOD", "GUARD", "OUR", "ROAD"];
-const words = [
-  { char: "A", id: "001" },
-  { char: "U", id: "002" },
-  { char: "O", id: "003" },
-  { char: "R", id: "007" },
-  { char: "D", id: "004" },
-  { char: "G", id: "005" },
-  { char: "A", id: "006" },
-];
-
+import anagrams from "../anagrams";
+import LoadNextLevel from './LoadNextLevel'
+import GameOver from './GameOver';
+import Modal from './Modal'
+console.log(anagrams)
+const anagramWord = anagrams.word
+const anagramWordSolution = anagrams.solutions;
 const wordsWithId = anagramWord.split("").map((letter, index) => {
   return { char: letter, id: `00${index}` };
 });
+const words = wordsWithId
+
+
 console.log(wordsWithId);
-const Game = () => {
+const Game = ({currentScores,currentLevel,wordsNeeded}) => {
   const [anagram, setAnagram] = useState(words);
   const [output, setOutput] = useState([]);
   const [previousState, setPreviousState] = useState(words);
   const [wordsFound, setWordsFound] = useState([]);
-  const [wordsNeeded, setWordsNeeded] = useState(1);
-  const [score, setScore] = useState(9000);
-  const [countDownTimer, setCountDownTimer] = useState(30);
+  const [score, setScore] = useState(currentScores);
+  const [countDownTimer, setCountDownTimer] = useState(60);
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [isInvalid, setIsInValid] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [nextLevel, setNextLevel] = useState(false);
+  const [isCongratModal, setIsCongratModal] = useState(false);
+  const [isQuitModal, setIsQuitModal] = useState(true);
+
   const clearOutput = useCallback(() => {
     setOutput([]);
     setAnagram(previousState);
@@ -63,7 +63,7 @@ const Game = () => {
   );
   // Based on Fisher Yates Method.
   // Source => https://w3schools.com/js/js_array_sort.asp
-  const shuffleWords = useCallback(() => {
+  const shuffle = useCallback(() => {
     for (let i = previousState.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * i);
       let k = previousState[i];
@@ -89,7 +89,7 @@ const Game = () => {
   );
   const handleBackspaceKey = useCallback(
     ({ key }) => {
-      if (key.toUpperCase() === "BACKSPACE") {
+      if ((key.toUpperCase() === "BACKSPACE") && (output.length)) {
         console.log(output[output.length - 1]);
         onClickTwo(
           output[output.length - 1].char,
@@ -102,12 +102,14 @@ const Game = () => {
   const handleSpaceKey = useCallback(
     ({ key }) => {
       if (key === " ") {
-        shuffleWords();
+        shuffle();
       }
     },
-    [shuffleWords]
+    [shuffle]
   );
-
+useEffect(()=>{
+  shuffle()
+},[shuffle])
   useEffect(() => {
     window.addEventListener("keyup", upHandler);
     window.addEventListener("keyup", handleBackspaceKey);
@@ -120,15 +122,17 @@ const Game = () => {
     };
   }, [upHandler, handleBackspaceKey, handleSpaceKey]);
   useEffect(() => {
-    if (!countDownTimer) {
-      if (wordsFound.length >= wordsNeeded) {
-        alert("next-stage");
-      }
-      return alert(" Game Over");
-    }
     const intervalId = setInterval(() => {
       setCountDownTimer(countDownTimer - 1);
     }, 1000);
+    if (!countDownTimer) {
+      if (wordsFound.length >= wordsNeeded) {
+        setIsCongratModal(true)
+        clearInterval(intervalId)
+      }
+      else{setGameOver(true)} 
+    }
+    
     return () => clearInterval(intervalId);
   }, [countDownTimer, wordsFound, wordsNeeded]);
   useEffect(() => {
@@ -179,13 +183,19 @@ const Game = () => {
       />
     );
   });
+  if(nextLevel) {
+    return <LoadNextLevel level = {currentLevel+1} scores={score} />
+  }
+  if(gameOver){
+    return <GameOver level={currentLevel} score = {score} wordsNeeded={wordsNeeded} wordsFound={wordsFound.length}/>
+  }
   return (
     <>
       <section className="main-section">
         <section className="game-container">
           <section className="time-score-section">
             <h4>Time: {countDownTimer}</h4>
-            <h4>Level: {countDownTimer}</h4>
+            <h4>Level: {currentLevel}</h4>
             <h4>Score: {score}</h4>
             <h4>
               <span className="quit-button">X</span>
@@ -219,7 +229,7 @@ const Game = () => {
 
           <section className="input-button-section">{arr}</section>
           <section className="secondary-button-container">
-            <button className="secondary-button" onClick={shuffleWords}>
+            <button className="secondary-button" onClick={shuffle}>
               Shuffle
             </button>
             <button onClick={clearOutput} className="secondary-button">
@@ -233,7 +243,31 @@ const Game = () => {
             return <p>{validWord}</p>;
           })}
         </section>
+      <Modal modalTitle={"Congratulations"} displayModal={isCongratModal} 
+      modalBody={<><h1>You cleared this level!</h1><p>Words Needed: {wordsNeeded}</p><p>Words Found: {wordsFound.length}</p>
+      
+      </>}
+      modalFooter = {<><button onClick={()=>setNextLevel(true)} className="secondary-button">
+      Proceed To the Next Level
+    </button></>}
+
+      />
+      
+      <Modal modalTitle={"Quit Game?"} displayModal={isQuitModal} 
+      modalBody={<><h1>Your game will not be saved</h1>
+      
+      </>}
+      modalFooter = {<><button onClick={()=>setNextLevel(true)} className="secondary-button">
+      Yes
+    </button>
+    <button onClick={()=>setNextLevel(true)} className="secondary-button">
+      No
+    </button>
+    </>}
+
+      />
       </section>
+          
     </>
   );
 };
