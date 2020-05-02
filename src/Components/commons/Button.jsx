@@ -19,10 +19,10 @@ export const ButtonTwo = ({ name, id, onClickTwo, index }) => {
   );
 };
 
-export const ButtonThree = ({ name, onClickThree }) => {
+export const ButtonThree = ({ name, onClick }) => {
   return (
     <section className="menu-button-wrapper">
-      <button className="button" onClick={onClickThree}>
+      <button className="button" onClick={onClick}>
         {name}
       </button>
     </section>
