@@ -16,6 +16,11 @@ body {
   align-items: center;
   min-height: 100vh;
 }
+.home-container {
+  width: 50%;
+  border: 7px double black;
+  margin: 10px auto;
+}
 .game-container {
   width: 40%;
   border: 5px double #292525;
@@ -84,7 +89,15 @@ body {
   text-align: center;
   font-size: 2.7rem;
   font-weight: 500;
-  margin: 2rem;
+  margin: 1.6rem;
+}
+.game-over h3 {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin: .5rem;
+  width: 80%;
+  font-weight: 300;
 }
 .arrow {
   width: 200px;
@@ -182,12 +195,14 @@ body {
 
 .time-score-section h4 {
   margin: 0.3rem;
-  font-size: 1.1rem;
+  font-size: 1.1rem;text-align: center;
+  
 }
 .quit-button {
   border: 2px solid black;
   padding: 0 5px;
   box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.5), 0 1px 1px 0 rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 }
 @media screen and (max-width: 1024px) {
   .game-container {
@@ -207,10 +222,11 @@ body {
     font-size: 0.7rem;
     font-weight: 900;
   }
-  .game-container {
+/*   .game-container {
     width: 97%;
     margin: auto;
-  }
+  } */
+
   .word-found-container {
     display: none;
   }
@@ -275,6 +291,11 @@ body {
   }
   .secondary-button {
     padding: 9px;
+  }
+  .home-container {
+    width: 90%;
+    border: 7px double black;
+    margin: 10px auto;
   }
 }
 @media screen and (max-width: 400px) {
@@ -363,11 +384,13 @@ nav h1 {
   font-style: italic;
   padding: 0.5rem;
 }
-.home-container {
-  width: 40%;
-  border: 7px double black;
-  margin: 10px auto;
+.menu-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
 }
+
 .home-title-section {
   display: flex;
   border-bottom: 5px double black;
@@ -395,6 +418,9 @@ nav h1 {
   height: 100%;
   align-items: stretch;
 }
+.home-button-wrapper div{
+  width: 100%;
+}
 .menu-button-wrapper .button{
   font-size: 1.2rem;
 }
@@ -407,4 +433,67 @@ input[type="text"], input[type="password"]{
   font-family: "roboto-regular", sans-serif;
   font-size: 1.4rem;
   width: 100%;
+}
+.next-level-info{
+  display: flex;
+  justify-content: space-between;
+  justify-items: baseline;
+  font-size:1.2rem;
+  margin: 1rem 2.9rem;
+  font-weight: 400;
+  width: 80%
+}
+.next-level-info span{
+  padding:4px;font-weight:700;
+}
+.modal-section{
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  
+}
+.modal-contents {
+  width: 550px;
+  min-height: 200px;
+  border: 10px double black;
+  z-index: 3;
+  background-color: whitesmoke;
+padding:0px
+}
+.modal-header {
+  width: 100%;
+  min-height: 60px;
+  border-bottom: 2px solid black;
+}
+.modal-header h1 {
+  font-size: 2rem;
+  text-align: center;font-weight: 100;
+  margin: 0.5rem;
+}
+.modal-body h1 {
+  font-size: 1.7rem;
+  font-weight: 300;
+  text-align: center;
+  margin:1.2rem
+}
+.modal-body p {
+  font-size: 1.2rem;
+  font-weight: 300;
+  text-align: center;
+}
+.modal-footer .secondary-button{
+  width:99%;
+ 
+}
+.modal-footer {
+  border-top:2px solid black;
+  min-height: 60px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  width:100%
 }
