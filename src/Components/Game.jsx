@@ -1,104 +1,177 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Button from "./commons/Button";
-import { ButtonTwo } from "./commons/Button";
-import GameNav from "../Components/GameNav";
+import InputKeyButton from "./commons/Button";
+import { OutputKeyButton } from "./commons/Button";
 import anagrams from "../anagrams";
-import LoadNextLevel from './LoadNextLevel'
-import GameOver from './GameOver';
-import Modal from './Modal'
-console.log(anagrams)
-const anagramWord = anagrams.word
+import LoadNextLevel from "./LoadNextLevel";
+import GameOver from "./GameOver";
+import Modal from "./Modal";
+import HomePage from "./HomePage";
+import { saveHighscore } from "../utils/highscore";
+console.log(anagrams);
+
+const anagramWord = anagrams.word;
 const anagramWordSolution = anagrams.solutions;
-const wordsWithId = anagramWord.split("").map((letter, index) => {
-  return { char: letter, id: `00${index}` };
-});
-const words = wordsWithId
-
-
-console.log(wordsWithId);
-const Game = ({currentScores,currentLevel,wordsNeeded}) => {
-  const [anagram, setAnagram] = useState(words);
-  const [output, setOutput] = useState([]);
-  const [previousState, setPreviousState] = useState(words);
+/**
+ * Game component
+ * @param  {props} currentScores - integer
+ * @param {props} currentLevel - integer
+ * @param {props} wordsNeeded - string
+ * @return {objects} JSX - Game component elements
+ * @return {component} HomePage - renders HomePage if isHomePage = true
+ * @return {component} GameOver - renders GameOver if isGameOver = true
+ * @return {component} LoadNextLevel - renders LoadNextLevel if isNextLevel = true
+ */
+const Game = ({ currentScores, currentLevel, wordsNeeded }) => {
+  /* Assigns id to each letter, to uniquely identify 
+each letter a user clicks on, incase a letter appear more than once */
+  const anagramWordWithId = anagramWord.split("").map((alphabet, index) => {
+    return { letter: alphabet, id: `00${index}` };
+  });
+  const [anagram, setAnagram] = useState(anagramWordWithId);
+  const [outputKeys, setOutputKeys] = useState([]);
+  const [previousAnagramState, setPreviousAnagramState] = useState(
+    anagramWordWithId
+  );
   const [wordsFound, setWordsFound] = useState([]);
   const [score, setScore] = useState(currentScores);
   const [countDownTimer, setCountDownTimer] = useState(60);
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [isInvalid, setIsInValid] = useState(false);
-  const [gameOver, setGameOver] = useState(false);
-  const [nextLevel, setNextLevel] = useState(false);
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [isNextLevel, setIsNextLevel] = useState(false);
   const [isCongratModal, setIsCongratModal] = useState(false);
-  const [isQuitModal, setIsQuitModal] = useState(true);
+  const [isQuitModal, setIsQuitModal] = useState(false);
+  const [isHomePage, setIsHomePage] = useState(false);
 
+  /**
+   * Quits game and take user back to hompage
+   * @return {Function} Returns setIsHomePage function
+   */
+  const quitGame = () => {
+    return setIsHomePage(true);
+  };
+  /**
+   * Displays or hides QuitModal
+   * @return {Function} Returns setIsQuitModal function
+   */
+  const toggleQuitModal = () => {
+    setIsQuitModal(!isQuitModal);
+  };
+
+  /**
+   * Clears the output letter buttons used to display the formed word then
+   * restores the input letter buttons (used to create word)
+   * @return {Function}  setAnagram -an updater function for anagram
+   */
   const clearOutput = useCallback(() => {
-    setOutput([]);
-    setAnagram(previousState);
-  }, [previousState]);
-  const onClick = useCallback(
-    (char, id, index) => {
-      setOutput([...output, { char: char, id: id, index: index }]);
-      const modifiedAnagram = [...anagram];
-      modifiedAnagram[index] = { char: " " };
-      setAnagram(modifiedAnagram);
+    setOutputKeys([]);
+    setAnagram(previousAnagramState);
+  }, [previousAnagramState]);
+
+  /**
+   * Forms word from the selected input button
+   * @return {Function}  setAnagram - an updater function for anagram
+   */
+  const handleInputButton = useCallback(
+    (letter, id, index) => {
+      // Display the selected letter on output button
+      setOutputKeys([...outputKeys, { letter: letter, id: id, index: index }]);
+      const anagramClone = [...anagram];
+      /*  Removes the selected letter from input button by replacing the letter with a space. 
+      PS input button with space are set to {display:none} in Button.jsx component*/
+      anagramClone[index] = { char: " " };
+      setAnagram(anagramClone);
     },
-    [anagram, output]
+    [anagram, outputKeys]
   );
-  const onClickTwo = useCallback(
-    (char, id) => {
-      setOutput(
-        output.filter((eachOut) => {
-          return eachOut.id !== id;
+  /**
+   * Once a user clicks on a letter on the output button, it removes the letter
+   * and restore it back to its exact position in the input button.
+   * @return {Function}  setAnagram - an updater function for anagram
+   */
+  const handleOutputButton = useCallback(
+    (letter, id) => {
+      setOutputKeys(
+        outputKeys.filter((key) => {
+          return key.id !== id;
         })
       );
-      const out1 = [...anagram];
-      const newAnag = [...output];
-      newAnag.forEach((el) => {
-        if (el.id === id) {
-          out1[el.index] = { char: char, id: id };
+      const anagramClone = [...anagram];
+      const outputKeysClone = [...outputKeys];
+      outputKeysClone.forEach((alphabet) => {
+        if (alphabet.id === id) {
+          anagramClone[alphabet.index] = { letter: letter, id: id };
         }
       });
-      setAnagram(out1);
+      setAnagram(anagramClone);
     },
-    [anagram, output]
+    [anagram, outputKeys]
   );
-  // Based on Fisher Yates Method.
-  // Source => https://w3schools.com/js/js_array_sort.asp
+
+  /**
+   * Shuffles the letters in anagram
+   * Based on Fisher Yates Method.
+   * Source => https://w3schools.com/js/js_array_sort.asp
+   * @return {Function}  setPreviousAnagramState - an updater function for previousAnagramState
+   */
   const shuffle = useCallback(() => {
-    for (let i = previousState.length - 1; i > 0; i--) {
+    for (let i = previousAnagramState.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * i);
-      let k = previousState[i];
-      previousState[i] = previousState[j];
-      previousState[j] = k;
+      let k = previousAnagramState[i];
+      previousAnagramState[i] = previousAnagramState[j];
+      previousAnagramState[j] = k;
     }
-    setOutput([]);
-    setAnagram(previousState);
-    setPreviousState(previousState);
-  }, [setPreviousState, setAnagram, setOutput, previousState]);
-  const upHandler = useCallback(
+
+    //Resets output keyboard once it's done shuffling
+    setOutputKeys([]);
+    setAnagram(previousAnagramState);
+    setPreviousAnagramState(previousAnagramState);
+  }, [
+    setPreviousAnagramState,
+    setAnagram,
+    setOutputKeys,
+    previousAnagramState,
+  ]);
+  /**
+   * Handles the hardware keyboard on laptop or computer, incase the user
+   * want to type from keyboard instead of clicking on the screen buttons
+   * @return {Function}  handleInputButton
+   */
+  const handleComputerKeyboard = useCallback(
     ({ key }) => {
       console.log(key);
       console.log(anagram);
-      anagram.some((char, index) => {
-        if (char.char.toUpperCase() === key.toUpperCase()) {
-          console.log(char, char.id, index);
-          onClick(char.char, char.id, index);
+      anagram.forEach((alphabet, index) => {
+        if (alphabet.letter === key) {
+          return handleInputButton(alphabet.letter, alphabet.id, index);
         }
       });
     },
-    [anagram, onClick]
+    [anagram, handleInputButton]
   );
+  /**
+   *Uses the backspace key on the keyboard to remove the last button in the
+   *output button
+   * @return {Function}  handleOutputButton
+   */
   const handleBackspaceKey = useCallback(
     ({ key }) => {
-      if ((key.toUpperCase() === "BACKSPACE") && (output.length)) {
-        console.log(output[output.length - 1]);
-        onClickTwo(
-          output[output.length - 1].char,
-          output[output.length - 1].id
+      if (key.toUpperCase() === "BACKSPACE" && outputKeys.length) {
+        console.log(outputKeys[outputKeys.length - 1]);
+        handleOutputButton(
+          outputKeys[outputKeys.length - 1].letter,
+          outputKeys[outputKeys.length - 1].id
         );
       }
     },
-    [output, onClickTwo]
+    [outputKeys, handleOutputButton]
   );
+
+  /**
+   *Uses the space key on the keyboard to call shuffle function
+   * @return {Function}  handleOutputButton
+   */
+
   const handleSpaceKey = useCallback(
     ({ key }) => {
       if (key === " ") {
@@ -107,45 +180,52 @@ const Game = ({currentScores,currentLevel,wordsNeeded}) => {
     },
     [shuffle]
   );
-useEffect(()=>{
-  shuffle()
-},[shuffle])
+  /**
+   *Shuffles the anagram only once, before this component is rendered
+   * @return {Function}  shuffle
+   */
   useEffect(() => {
-    window.addEventListener("keyup", upHandler);
+    return shuffle();
+  }, [shuffle]);
+
+  useEffect(() => {
+    window.addEventListener("keyup", handleComputerKeyboard);
     window.addEventListener("keyup", handleBackspaceKey);
     window.addEventListener("keyup", handleSpaceKey);
     // Remove event listeners on cleanup
     return () => {
-      window.removeEventListener("keyup", upHandler);
+      window.removeEventListener("keyup", handleComputerKeyboard);
       window.removeEventListener("keyup", handleBackspaceKey);
       window.removeEventListener("keyup", handleSpaceKey);
     };
-  }, [upHandler, handleBackspaceKey, handleSpaceKey]);
+  }, [handleComputerKeyboard, handleBackspaceKey, handleSpaceKey]);
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCountDownTimer(countDownTimer - 1);
     }, 1000);
     if (!countDownTimer) {
+      saveHighscore(score);
       if (wordsFound.length >= wordsNeeded) {
-        setIsCongratModal(true)
-        clearInterval(intervalId)
+        setIsCongratModal(true);
+        clearInterval(intervalId);
+      } else {
+        setIsGameOver(true);
       }
-      else{setGameOver(true)} 
     }
-    
+
     return () => clearInterval(intervalId);
-  }, [countDownTimer, wordsFound, wordsNeeded]);
+  }, [countDownTimer, wordsFound, wordsNeeded, score]);
   useEffect(() => {
-    if (!output.length) {
+    if (!outputKeys.length) {
       setIsInValid(false);
       return;
     }
-    const arr = output.map((letter) => {
-      return letter.char;
-    });
-    const userInput = arr.join("");
-    const wordIsValid = anagramWordSolution.includes(userInput);
-    const wordIsDuplicate = wordsFound.includes(userInput);
+    const formedWord = outputKeys
+      .map((eachAlphabet) => eachAlphabet.letter)
+      .join("");
+    const wordIsValid = anagramWordSolution.includes(formedWord);
+    const wordIsDuplicate = wordsFound.includes(formedWord);
     if (wordIsDuplicate) {
       setIsDuplicate(true);
       setIsInValid(false);
@@ -155,39 +235,52 @@ useEffect(()=>{
     }
     if (wordIsValid) {
       setIsInValid(false);
-      setScore(score + userInput.length * 100);
-      setWordsFound([...wordsFound, userInput]);
+      setScore(score + formedWord.length * 100);
+      setWordsFound([...wordsFound, formedWord]);
       clearOutput();
-      setAnagram(previousState);
+      setAnagram(previousAnagramState);
     }
     setIsInValid(true);
-  }, [output, wordsFound, clearOutput, previousState, score]);
-
-  const arr = anagram.map((eachWord, index) => {
+  }, [outputKeys, wordsFound, clearOutput, previousAnagramState, score]);
+  // generate onscreen keyboard from the letters in anagram array
+  const inputKeyboard = anagram.map((eachAlphabet, index) => {
     return (
-      <Button
-        name={eachWord.char}
-        id={eachWord.id}
-        onClick={onClick}
+      <InputKeyButton
+        letter={eachAlphabet.letter}
+        id={eachAlphabet.id}
+        selectInputButton={handleInputButton}
         index={index}
+        key={eachAlphabet.id}
       />
     );
   });
-  const arr2 = output.map((eachWord, index) => {
+  // generates onscreen keyboard from the letters in outputKeys array
+  const outputKeyboard = outputKeys.map((eachAlphabet, index) => {
     return (
-      <ButtonTwo
-        name={eachWord.char}
-        id={eachWord.id}
-        onClickTwo={onClickTwo}
+      <OutputKeyButton
+        letter={eachAlphabet.letter}
+        id={eachAlphabet.id}
+        selectOutputButton={handleOutputButton}
         index={index}
+        key={eachAlphabet.id}
       />
     );
   });
-  if(nextLevel) {
-    return <LoadNextLevel level = {currentLevel+1} scores={score} />
+  if (isNextLevel) {
+    return <LoadNextLevel level={currentLevel + 1} scores={score} />;
   }
-  if(gameOver){
-    return <GameOver level={currentLevel} score = {score} wordsNeeded={wordsNeeded} wordsFound={wordsFound.length}/>
+  if (isGameOver) {
+    return (
+      <GameOver
+        level={currentLevel}
+        score={score}
+        wordsNeeded={wordsNeeded}
+        wordsFound={wordsFound.length}
+      />
+    );
+  }
+  if (isHomePage) {
+    return <HomePage />;
   }
   return (
     <>
@@ -198,12 +291,14 @@ useEffect(()=>{
             <h4>Level: {currentLevel}</h4>
             <h4>Score: {score}</h4>
             <h4>
-              <span className="quit-button">X</span>
+              <span className="quit-button" onClick={toggleQuitModal}>
+                X
+              </span>
             </h4>
           </section>
           <section className="output-button-section">
-            {arr2.length ? (
-              <div className="output-button">{arr2}</div>
+            {outputKeyboard.length ? (
+              <div className="output-button">{outputKeyboard}</div>
             ) : (
               <div className="instructions">
                 <h1>
@@ -227,7 +322,7 @@ useEffect(()=>{
             </h1>
           </section>
 
-          <section className="input-button-section">{arr}</section>
+          <section className="input-button-section">{inputKeyboard}</section>
           <section className="secondary-button-container">
             <button className="secondary-button" onClick={shuffle}>
               Shuffle
@@ -243,31 +338,47 @@ useEffect(()=>{
             return <p>{validWord}</p>;
           })}
         </section>
-      <Modal modalTitle={"Congratulations"} displayModal={isCongratModal} 
-      modalBody={<><h1>You cleared this level!</h1><p>Words Needed: {wordsNeeded}</p><p>Words Found: {wordsFound.length}</p>
-      
-      </>}
-      modalFooter = {<><button onClick={()=>setNextLevel(true)} className="secondary-button">
-      Proceed To the Next Level
-    </button></>}
-
-      />
-      
-      <Modal modalTitle={"Quit Game?"} displayModal={isQuitModal} 
-      modalBody={<><h1>Your game will not be saved</h1>
-      
-      </>}
-      modalFooter = {<><button onClick={()=>setNextLevel(true)} className="secondary-button">
-      Yes
-    </button>
-    <button onClick={()=>setNextLevel(true)} className="secondary-button">
-      No
-    </button>
-    </>}
-
-      />
+        <Modal
+          modalTitle={"Congratulations!"}
+          displayModal={isCongratModal}
+          modalBody={
+            <>
+              <p>Words Needed: {wordsNeeded}</p>
+              <p>Words Found: {wordsFound.length}</p>
+              <h1>You cleared this level.</h1>
+            </>
+          }
+          modalFooter={
+            <>
+              <button
+                onClick={() => setIsNextLevel(true)}
+                className="secondary-button"
+              >
+                Proceed To the Next Level
+              </button>
+            </>
+          }
+        />
+        <Modal
+          modalTitle={"Quit Game?"}
+          displayModal={isQuitModal}
+          modalBody={
+            <>
+              <h1>This game will not be saved, continue?</h1>
+            </>
+          }
+          modalFooter={
+            <>
+              <button onClick={quitGame} className="secondary-button">
+                Yes
+              </button>
+              <button onClick={toggleQuitModal} className="secondary-button">
+                No
+              </button>
+            </>
+          }
+        />
       </section>
-          
     </>
   );
 };
