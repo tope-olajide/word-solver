@@ -1,15 +1,12 @@
-import React from 'react';
-import Game from '../src/Components/Game'
-import GameOver from '../src/Components/GameOver'
-import HomePage from '../src/Components/HomePage'
-import HowToPlay from '../src/Components/HowToPlay'
-import SignUp from '../src/Components/SignUp'
-import LoadNextPage from './Components/LoadNextLevel'
-import Modal from './Components/Modal'
+import React from "react";
+import HomePage from "../src/Components/HomePage";
+
 function App() {
+  const theme = localStorage.getItem("theme");
+  document.documentElement.setAttribute("data-theme", theme);
   return (
     <>
-    <HomePage />
+      <HomePage />
     </>
   );
 }
