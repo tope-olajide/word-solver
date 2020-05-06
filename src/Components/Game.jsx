@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import InputKeyButton from "./commons/Button";
 import { OutputKeyButton } from "./commons/Button";
-import anagrams from "../anagrams";
+import anagrams from "../utils/anagrams";
 import LoadNextLevel from "./LoadNextLevel";
 import GameOver from "./GameOver";
 import Modal from "./Modal";
