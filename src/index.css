@@ -1,3 +1,12 @@
+:root {
+  --main-color: #f2f2f2;
+  --minor-color: #292525;
+}
+
+[data-theme="dark"] {
+  --main-color: black;
+  --minor-color: #f2f2f2;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -5,8 +14,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: whitesmoke;
+  background-color: var(--main-color);
   width: 100wv;
+  color: var(--minor-color);
+  transition: ease-in 0.5s;
 }
 
 .main-section {
@@ -15,15 +26,16 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  color: var(--minor-color);
 }
 .home-container {
   width: 50%;
-  border: 7px double black;
+  border: 7px double var(--minor-color);
   margin: 10px auto;
 }
 .game-container {
   width: 40%;
-  border: 5px double #292525;
+  border: 5px double var(--minor-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,7 +46,7 @@ body {
 .button {
   text-transform: uppercase;
   background: #292525;
-  color: #ffffff;
+  color: white;
   cursor: pointer;
   border: none;
   width: 100%;
@@ -56,10 +68,10 @@ body {
 .output-button-section::after {
   content: "";
   width: 100%;
-  border-bottom: 5px double black;
+  border-bottom: 5px double var(--minor-color);
 }
 .button-wrapper {
-  border: 2px solid #292525;
+  border: 2px solid var(--minor-color);
   display: flex;
   align-items: center;
   padding: 5px;
@@ -95,7 +107,7 @@ body {
   text-align: center;
   font-size: 1.4rem;
   font-weight: 500;
-  margin: .5rem;
+  margin: 0.5rem;
   width: 80%;
   font-weight: 300;
 }
@@ -107,15 +119,15 @@ body {
   justify-content: space-between;
   width: 100%;
   margin: 15px;
-  color: rgb(0, 0, 0);
+  color: var(--minor-color);
 }
 
 .is-duplicate,
 .is-invalid {
   padding: 0 50px;
   margin: 0;
-  color: rgb(0, 0, 0);
-  border: 5px double rgb(0, 0, 0);
+  color: var(--minor-color);
+  border: 5px double var(--minor-color);
 }
 .not-duplicate,
 .valid {
@@ -140,7 +152,7 @@ body {
   width: 100%;
 }
 .info-section span {
-  border: 2px solid black;
+  border: 2px solid var(--minor-color);
   padding: 2px 5px;
 }
 .info-section h1 {
@@ -158,7 +170,7 @@ body {
   width: 100%;
   text-transform: uppercase;
   background: #292525;
-  color: #ffffff;
+  color: white;
   cursor: pointer;
   width: 95%;
   height: 100%;
@@ -169,11 +181,11 @@ body {
 .word-found-container {
   height: 95vh;
   width: 22%;
-  border: 6px double black;
+  border: 6px double var(--minor-color);
   overflow: auto;
 }
 .word-found-container h1 {
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid var(--minor-color);
   margin: 0;
   text-align: center;
 }
@@ -190,16 +202,16 @@ body {
 .time-score-section::after {
   content: "";
   width: 100%;
-  border-bottom: 7px double black;
+  border-bottom: 7px double var(--minor-color);
 }
 
 .time-score-section h4 {
   margin: 0.3rem;
-  font-size: 1.1rem;text-align: center;
-  
+  font-size: 1.1rem;
+  text-align: center;
 }
 .quit-button {
-  border: 2px solid black;
+  border: 2px solid var(--minor-color);
   padding: 0 5px;
   box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.5), 0 1px 1px 0 rgba(0, 0, 0, 0.5);
   cursor: pointer;
@@ -222,10 +234,10 @@ body {
     font-size: 0.7rem;
     font-weight: 900;
   }
-/*   .game-container {
-    width: 97%;
+  .game-container {
+    width: 98%;
     margin: auto;
-  } */
+  }
 
   .word-found-container {
     display: none;
@@ -236,7 +248,7 @@ body {
   .output-button-section::after {
     content: "";
     width: 97vw;
-    border-bottom: 5px double black;
+    border-bottom: 5px double var(--minor-color);
   }
   .instructions h1 {
     text-align: center;
@@ -256,8 +268,8 @@ body {
   .is-invalid {
     padding: 0 10px;
     margin: 0;
-    color: rgb(0, 0, 0);
-    border: 5px double rgb(0, 0, 0);
+    color: var(--minor-color);
+    border: 5px double var(--minor-color);
   }
   .not-duplicate,
   .valid {
@@ -294,7 +306,7 @@ body {
   }
   .home-container {
     width: 90%;
-    border: 7px double black;
+    border: 7px double var(--minor-color);
     margin: 10px auto;
   }
 }
@@ -358,7 +370,7 @@ body {
     font-size: 1.3rem;
   }
   .button-wrapper {
-    border: 1px solid red;
+    border: 1px solid var(--minor-color);
     padding: 4px;
     height: 45px;
     width: 45px;
@@ -374,15 +386,15 @@ body {
 }
 nav {
   width: 100%;
-  background-color: black;
-  color: #ffffff;
+  background-color: #292525;
+  color: var(--main-color);
 }
 nav h1 {
   margin: 0rem;
-  font-weight: 100;
-  font-size: 2.3rem;
-  font-style: italic;
-  padding: 0.5rem;
+  font-weight: 500;
+  font-size: 2rem;
+  padding: 1rem 2rem;
+  color: white;
 }
 .menu-wrapper {
   display: flex;
@@ -393,7 +405,7 @@ nav h1 {
 
 .home-title-section {
   display: flex;
-  border-bottom: 5px double black;
+  border-bottom: 5px double var(--minor-color);
   align-items: center;
   justify-content: center;
   padding: 5px;
@@ -401,16 +413,17 @@ nav h1 {
 .home-title-section h1 {
   font-size: 2rem;
   margin: 1rem;
+  color: var(--minor-color);
 }
 .menu-button-wrapper {
-  border: 2px solid #292525;
+  border: 2px solid var(--minor-color);
   align-items: center;
   padding: 5px;
   margin: 2px;
   height: 50px;
   width: 96.8%;
 }
-.home-button-wrapper, .home-menu-details {
+.home-button-wrapper {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -418,13 +431,28 @@ nav h1 {
   height: 100%;
   align-items: stretch;
 }
-.home-button-wrapper div{
+.home-menu-details {
+  min-height: 200px;
+  width: 100%;
+  text-align: center;
+  width: 90%;
+  margin: 0 auto;
+}
+.home-menu-details h1 {
+  font-size: 2.3rem;
+}
+.home-menu-details p {
+  font-size: 1.3rem;
+  font-weight: 200;
+}
+.home-button-wrapper div {
   width: 100%;
 }
-.menu-button-wrapper .button{
+.menu-button-wrapper .button {
   font-size: 1.2rem;
 }
-input[type="text"], input[type="password"]{
+input[type="text"],
+input[type="password"] {
   display: block;
   padding: 1rem 0.5rem;
   border: 4px double black;
@@ -434,19 +462,20 @@ input[type="text"], input[type="password"]{
   font-size: 1.4rem;
   width: 100%;
 }
-.next-level-info{
+.next-level-info {
   display: flex;
   justify-content: space-between;
   justify-items: baseline;
-  font-size:1.2rem;
+  font-size: 1.2rem;
   margin: 1rem 2.9rem;
   font-weight: 400;
-  width: 80%
+  width: 80%;
 }
-.next-level-info span{
-  padding:4px;font-weight:700;
+.next-level-info span {
+  padding: 4px;
+  font-weight: 700;
 }
-.modal-section{
+.modal-section {
   width: 100%;
   height: 100vh;
   background-color: rgb(0, 0, 0, 0.6);
@@ -454,46 +483,45 @@ input[type="text"], input[type="password"]{
   justify-content: center;
   align-items: center;
   position: fixed;
-  
 }
 .modal-contents {
   width: 550px;
   min-height: 200px;
-  border: 10px double black;
+  border: 10px double var(--minor-color);
   z-index: 3;
-  background-color: whitesmoke;
-padding:0px
+  background-color: var(--main-color);
+  padding: 0px;
 }
 .modal-header {
   width: 100%;
   min-height: 60px;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid var(--minor-color);
 }
 .modal-header h1 {
   font-size: 2rem;
-  text-align: center;font-weight: 100;
+  text-align: center;
+  font-weight: 100;
   margin: 0.5rem;
 }
 .modal-body h1 {
   font-size: 1.7rem;
   font-weight: 300;
   text-align: center;
-  margin:1.2rem
+  margin: 1.2rem;
 }
 .modal-body p {
   font-size: 1.2rem;
   font-weight: 300;
   text-align: center;
 }
-.modal-footer .secondary-button{
-  width:99%;
- 
+.modal-footer .secondary-button {
+  width: 99%;
 }
 .modal-footer {
-  border-top:2px solid black;
+  border-top: 2px solid var(--minor-color);
   min-height: 60px;
   display: flex;
   align-items: stretch;
   justify-content: center;
-  width:100%
+  width: 100%;
 }
