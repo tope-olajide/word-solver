@@ -206,6 +206,10 @@ each letter a user clicks on, incase a letter appear more than once */
     }, 1000);
     if (!countDownTimer) {
       saveHighscore(score);
+      // prevents the user from typing once the game is over
+      window.removeEventListener("keyup", handleComputerKeyboard);
+      window.removeEventListener("keyup", handleBackspaceKey);
+      window.removeEventListener("keyup", handleSpaceKey);
       if (wordsFound.length >= wordsNeeded) {
         setIsCongratModal(true);
         clearInterval(intervalId);
