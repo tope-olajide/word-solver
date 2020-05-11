@@ -1,11 +1,11 @@
 :root {
   --main-color: #f2f2f2;
-  --minor-color: #292525;
+  --secondary-color: #292525;
 }
 
 [data-theme="dark"] {
   --main-color: black;
-  --minor-color: #f2f2f2;
+  --secondary-color: #f2f2f2;
 }
 body {
   margin: 0;
@@ -16,7 +16,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--main-color);
   width: 100wv;
-  color: var(--minor-color);
+  color: var(--secondary-color);
   transition: ease-in 0.5s;
 }
 
@@ -26,16 +26,16 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  color: var(--minor-color);
+  color: var(--secondary-color);
 }
 .home-container {
   width: 50%;
-  border: 7px double var(--minor-color);
+  border: 7px double var(--secondary-color);
   margin: 10px auto;
 }
 .game-container {
   width: 40%;
-  border: 5px double var(--minor-color);
+  border: 5px double var(--secondary-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,10 +68,10 @@ body {
 .output-button-section::after {
   content: "";
   width: 100%;
-  border-bottom: 5px double var(--minor-color);
+  border-bottom: 5px double var(--secondary-color);
 }
 .button-wrapper {
-  border: 2px solid var(--minor-color);
+  border: 2px solid var(--secondary-color);
   display: flex;
   align-items: center;
   padding: 5px;
@@ -119,15 +119,15 @@ body {
   justify-content: space-between;
   width: 100%;
   margin: 15px;
-  color: var(--minor-color);
+  color: var(--secondary-color);
 }
 
 .is-duplicate,
 .is-invalid {
   padding: 0 50px;
   margin: 0;
-  color: var(--minor-color);
-  border: 5px double var(--minor-color);
+  color: var(--secondary-color);
+  border: 5px double var(--secondary-color);
 }
 .not-duplicate,
 .valid {
@@ -152,7 +152,7 @@ body {
   width: 100%;
 }
 .info-section span {
-  border: 2px solid var(--minor-color);
+  border: 2px solid var(--secondary-color);
   padding: 2px 5px;
 }
 .info-section h1 {
@@ -161,7 +161,6 @@ body {
 }
 .secondary-button-container {
   display: flex;
-  flex-direction: column;
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -181,11 +180,11 @@ body {
 .word-found-container {
   height: 95vh;
   width: 22%;
-  border: 6px double var(--minor-color);
+  border: 6px double var(--secondary-color);
   overflow: auto;
 }
 .word-found-container h1 {
-  border-bottom: 2px solid var(--minor-color);
+  border-bottom: 2px solid var(--secondary-color);
   margin: 0;
   text-align: center;
 }
@@ -202,7 +201,7 @@ body {
 .time-score-section::after {
   content: "";
   width: 100%;
-  border-bottom: 7px double var(--minor-color);
+  border-bottom: 7px double var(--secondary-color);
 }
 
 .time-score-section h4 {
@@ -211,7 +210,7 @@ body {
   text-align: center;
 }
 .quit-button {
-  border: 2px solid var(--minor-color);
+  border: 2px solid var(--secondary-color);
   padding: 0 5px;
   box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.5), 0 1px 1px 0 rgba(0, 0, 0, 0.5);
   cursor: pointer;
@@ -248,7 +247,7 @@ body {
   .output-button-section::after {
     content: "";
     width: 97vw;
-    border-bottom: 5px double var(--minor-color);
+    border-bottom: 5px double var(--secondary-color);
   }
   .instructions h1 {
     text-align: center;
@@ -268,8 +267,8 @@ body {
   .is-invalid {
     padding: 0 10px;
     margin: 0;
-    color: var(--minor-color);
-    border: 5px double var(--minor-color);
+    color: var(--secondary-color);
+    border: 5px double var(--secondary-color);
   }
   .not-duplicate,
   .valid {
@@ -306,7 +305,7 @@ body {
   }
   .home-container {
     width: 90%;
-    border: 7px double var(--minor-color);
+    border: 7px double var(--secondary-color);
     margin: 10px auto;
   }
 }
@@ -344,8 +343,8 @@ body {
   .is-invalid {
     padding: 0 10px;
     margin: 0;
-    color: rgb(0, 0, 0);
-    border: 5px double rgb(0, 0, 0);
+    color: var(--secondary-color);
+    border: 5px double var(--secondary-color);
   }
   .not-duplicate,
   .valid {
@@ -370,7 +369,7 @@ body {
     font-size: 1.3rem;
   }
   .button-wrapper {
-    border: 1px solid var(--minor-color);
+    border: 1px solid var(--secondary-color);
     padding: 4px;
     height: 45px;
     width: 45px;
@@ -382,6 +381,10 @@ body {
   }
   .word_duplicate-section {
     margin: 20px;
+  }
+  .menu-button-wrapper {
+    border: 1px solid var(--secondary-color);
+    width: 95.5%;
   }
 }
 nav {
@@ -405,7 +408,7 @@ nav h1 {
 
 .home-title-section {
   display: flex;
-  border-bottom: 5px double var(--minor-color);
+  border-bottom: 5px double var(--secondary-color);
   align-items: center;
   justify-content: center;
   padding: 5px;
@@ -413,10 +416,10 @@ nav h1 {
 .home-title-section h1 {
   font-size: 2rem;
   margin: 1rem;
-  color: var(--minor-color);
+  color: var(--secondary-color);
 }
 .menu-button-wrapper {
-  border: 2px solid var(--minor-color);
+  border: 2px solid var(--secondary-color);
   align-items: center;
   padding: 5px;
   margin: 2px;
@@ -443,7 +446,7 @@ nav h1 {
 }
 .home-menu-details p {
   font-size: 1.3rem;
-  font-weight: 200;
+  font-weight: 400;
 }
 .home-button-wrapper div {
   width: 100%;
@@ -487,7 +490,7 @@ input[type="password"] {
 .modal-contents {
   width: 550px;
   min-height: 200px;
-  border: 10px double var(--minor-color);
+  border: 10px double var(--secondary-color);
   z-index: 3;
   background-color: var(--main-color);
   padding: 0px;
@@ -495,7 +498,7 @@ input[type="password"] {
 .modal-header {
   width: 100%;
   min-height: 60px;
-  border-bottom: 2px solid var(--minor-color);
+  border-bottom: 2px solid var(--secondary-color);
 }
 .modal-header h1 {
   font-size: 2rem;
@@ -518,7 +521,7 @@ input[type="password"] {
   width: 99%;
 }
 .modal-footer {
-  border-top: 2px solid var(--minor-color);
+  border-top: 2px solid var(--secondary-color);
   min-height: 60px;
   display: flex;
   align-items: stretch;

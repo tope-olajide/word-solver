@@ -356,4 +356,5 @@ const anagrams = [
   ]
   },
 ];
-export default anagrams[Math.floor(Math.random() * (anagrams.length ))]
+
+export default anagrams

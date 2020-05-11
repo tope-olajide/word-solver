@@ -29,9 +29,9 @@ const About = () => {
             Chicktionary, a word game I love playing on my brother's PC when I
             was a kid.
           </p>
-          <p>The source code is available here: </p>
+          <p>The source code is available here: https://github.com/tope-olajide/word-solver </p>
           <p>
-            I am available for a freelance project or full time Gig. My email:
+            I am available for a freelance project or full-time Gig. Here is my email address:
             temitope_olajide@outlook.com
           </p>
         </section>

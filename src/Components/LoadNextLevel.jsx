@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Game from "./Game";
 import HomePage from "./HomePage";
+import anagrams from "../utils/anagrams";
 
 /**
  * Home component
@@ -11,12 +12,28 @@ import HomePage from "./HomePage";
  * @return {component} Game - renders Game if isHomePage = true
  */
 const Home = ({ level, scores }) => {
+
   const currentLevel = level || 1;
   const [isGameOn, setIsGameOn] = useState(false);
   const [isHomePage, setIsHomePage] = useState(false);
+  const [anagramWordSolution, setAnagramWordSolution] = useState();
+  const [anagramWordWithId, setAnagramWordWithId] = useState();
   const wordsNeeded = 5 + currentLevel;
   const currentScores = scores || 0;
-
+  useEffect(() => {
+    const anagramWordsAndSolution = anagrams[Math.floor(Math.random() * (anagrams.length ))]
+    
+    const anagram = anagramWordsAndSolution.word;
+    const anagramWordSolution = anagramWordsAndSolution.solutions;
+    setAnagramWordSolution(anagramWordSolution)
+      /* Assigns id to each letter, to uniquely identify 
+    each letter a user clicks on, incase a letter appear more than once */
+       const anagramWordWithId = anagram.split("").map((alphabet, index) => {
+        return { letter: alphabet, id: `00${index}` };
+      }); 
+      setAnagramWordWithId(anagramWordWithId)
+      }, []);
+      
   const startGame = () => {
     setIsGameOn(true);
   };
@@ -34,6 +51,8 @@ const Home = ({ level, scores }) => {
         currentLevel={currentLevel}
         wordsNeeded={wordsNeeded}
         currentScores={currentScores}
+        anagramWord = {anagramWordWithId}
+        anagramWordSolution = {anagramWordSolution}
       />
     );
   }

@@ -36,8 +36,8 @@ const GameOver = ({ score, level, wordsNeeded, wordsFound }) => {
             <div className="game-over">
               <h1>GAME OVER</h1>
               <h3>
-                You needed {wordsNeeded} words to advance to the next level, you
-                found {wordsFound} {wordsFound > 1 ? "words" : "word"}.
+                You needed {wordsNeeded} words to advance to the next level, but you
+                found only {wordsFound} {wordsFound === 1 ? "word" : "words"}.
               </h3>
             </div>
           </section>

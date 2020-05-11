@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import InputKeyButton from "./commons/Button";
 import { OutputKeyButton } from "./commons/Button";
-import anagrams from "../utils/anagrams";
 import LoadNextLevel from "./LoadNextLevel";
 import GameOver from "./GameOver";
 import Modal from "./Modal";
 import HomePage from "./HomePage";
 import { saveHighscore } from "../utils/highscore";
-console.log(anagrams);
 
-const anagramWord = anagrams.word;
-const anagramWordSolution = anagrams.solutions;
+
 /**
  * Game component
  * @param  {props} currentScores - integer
@@ -21,17 +18,14 @@ const anagramWordSolution = anagrams.solutions;
  * @return {component} GameOver - renders GameOver if isGameOver = true
  * @return {component} LoadNextLevel - renders LoadNextLevel if isNextLevel = true
  */
-const Game = ({ currentScores, currentLevel, wordsNeeded }) => {
-  /* Assigns id to each letter, to uniquely identify 
-each letter a user clicks on, incase a letter appear more than once */
-  const anagramWordWithId = anagramWord.split("").map((alphabet, index) => {
-    return { letter: alphabet, id: `00${index}` };
-  });
-  const [anagram, setAnagram] = useState(anagramWordWithId);
+const Game = ({ currentScores, currentLevel, wordsNeeded,anagramWord,anagramWordSolution }) => {
+
+
+
+
+  const [anagram, setAnagram] = useState(anagramWord);
   const [outputKeys, setOutputKeys] = useState([]);
-  const [previousAnagramState, setPreviousAnagramState] = useState(
-    anagramWordWithId
-  );
+  const [previousAnagramState, setPreviousAnagramState] = useState(anagramWord);
   const [wordsFound, setWordsFound] = useState([]);
   const [score, setScore] = useState(currentScores);
   const [countDownTimer, setCountDownTimer] = useState(60);
@@ -139,8 +133,6 @@ each letter a user clicks on, incase a letter appear more than once */
    */
   const handleComputerKeyboard = useCallback(
     ({ key }) => {
-      console.log(key);
-      console.log(anagram);
       anagram.forEach((alphabet, index) => {
         if (alphabet.letter === key) {
           return handleInputButton(alphabet.letter, alphabet.id, index);
@@ -157,7 +149,6 @@ each letter a user clicks on, incase a letter appear more than once */
   const handleBackspaceKey = useCallback(
     ({ key }) => {
       if (key.toUpperCase() === "BACKSPACE" && outputKeys.length) {
-        console.log(outputKeys[outputKeys.length - 1]);
         handleOutputButton(
           outputKeys[outputKeys.length - 1].letter,
           outputKeys[outputKeys.length - 1].id
