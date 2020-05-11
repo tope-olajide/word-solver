@@ -236,7 +236,7 @@ const Game = ({ currentScores, currentLevel, wordsNeeded,anagramWord,anagramWord
       setAnagram(previousAnagramState);
     }
     setIsInValid(true);
-  }, [outputKeys, wordsFound, clearOutput, previousAnagramState, score]);
+  }, [outputKeys, wordsFound,handleBackspaceKey, anagramWordSolution,handleComputerKeyboard, handleSpaceKey, clearOutput, previousAnagramState, score]);
   // generate onscreen keyboard from the letters in anagram array
   const inputKeyboard = anagram.map((eachAlphabet, index) => {
     return (
@@ -316,7 +316,6 @@ const Game = ({ currentScores, currentLevel, wordsNeeded,anagramWord,anagramWord
               Words Found: <span>{wordsFound.length}</span>{" "}
             </h1>
           </section>
-
           <section className="input-button-section">{inputKeyboard}</section>
           <section className="game-secondary-button-container">
             <button className="secondary-button" onClick={shuffle}>

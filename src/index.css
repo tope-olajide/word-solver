@@ -178,8 +178,7 @@ body {
   width: 95%;
   height: 100%;
   font-size: 1rem;
-  padding: 15px;
-  margin: 2px;
+  margin: 5px;
 }
 .word-found-container {
   height: 95vh;
@@ -240,6 +239,7 @@ body {
   .game-container {
     width: 98%;
     margin: auto;
+    min-height: 100vh;
   }
 
   .word-found-container {
@@ -317,6 +317,7 @@ body {
   .game-container {
     width: 97%;
     margin: 0 auto;
+    height: auto;
   }
   .time-score-section h4 {
     margin: 0.2rem;
