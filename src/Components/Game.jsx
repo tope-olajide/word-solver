@@ -210,7 +210,7 @@ const Game = ({ currentScores, currentLevel, wordsNeeded,anagramWord,anagramWord
     }
 
     return () => clearInterval(intervalId);
-  }, [countDownTimer, wordsFound, wordsNeeded, score]);
+  }, [countDownTimer, wordsFound, wordsNeeded, score,handleBackspaceKey, handleComputerKeyboard, handleSpaceKey]);
   useEffect(() => {
     if (!outputKeys.length) {
       setIsInValid(false);

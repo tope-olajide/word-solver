@@ -11,6 +11,7 @@ const InputKeyButton = ({ letter, id, selectInputButton, index }) => {
   return (
     <div className="button-wrapper">
       <button
+        key={id}
         style={!letter ? { visibility: "hidden" } : { visibility: "visible" }}
         className={"button"}
         onClick={() => selectInputButton(letter, id, index)}

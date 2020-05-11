@@ -314,6 +314,12 @@ body {
   }
 }
 @media screen and (max-width: 400px) {
+  nav h1 {
+    font-weight: 500;
+    font-size: 1.8rem;
+    padding: 1rem;
+    text-align: center;
+  }
   .game-container {
     width: 97%;
     margin: 0 auto;
