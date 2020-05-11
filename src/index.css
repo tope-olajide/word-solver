@@ -159,11 +159,15 @@ body {
   font-size: 1rem;
   text-transform: uppercase;
 }
-.secondary-button-container {
+.secondary-button-container, .game-secondary-button-container {
   display: flex;
   width: 100%;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  flex-direction: column;
+}
+.game-secondary-button-container{
+  flex-direction: row;
 }
 .secondary-button {
   width: 100%;

@@ -318,7 +318,7 @@ const Game = ({ currentScores, currentLevel, wordsNeeded,anagramWord,anagramWord
           </section>
 
           <section className="input-button-section">{inputKeyboard}</section>
-          <section className="secondary-button-container">
+          <section className="game-secondary-button-container">
             <button className="secondary-button" onClick={shuffle}>
               Shuffle
             </button>
