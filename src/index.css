@@ -206,7 +206,9 @@ body {
   width: 100%;
   border-bottom: 7px double var(--secondary-color);
 }
-
+.secondary-button {
+  padding: 1.1rem;
+}
 .time-score-section h4 {
   margin: 0.3rem;
   font-size: 1.1rem;
