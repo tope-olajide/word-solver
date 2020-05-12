@@ -21,7 +21,7 @@ const About = () => {
       <Nav />
       <section className="home-container">
         <section className="home-title-section">
-          <h1>How To Play</h1>
+          <h1>About</h1>
         </section>
         <section className="home-menu-details">
           <p>
@@ -31,7 +31,7 @@ const About = () => {
           </p>
           <p>The source code is available here: https://github.com/tope-olajide/word-solver </p>
           <p>
-            I am available for a freelance project or full-time Gig. Here is my email address:
+            I am available for a freelance project or full-time Gig. Here is my email address: 
             temitope_olajide@outlook.com
           </p>
         </section>
