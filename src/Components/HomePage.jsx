@@ -73,7 +73,7 @@ const HomePage = () => {
             <h1>MENU</h1>
           </section>
           <section className="home-button-wrapper">
-            <div style={savedGame ? {width:'97%'} : { display: "none" }}>
+            <div style={savedGame ? {width:'99%'} : { display: "none" }}>
               <SecondaryButton name="Continue" onClick={continueGame} />
             </div>
             <SecondaryButton name="Start" onClick={loadNext} />
